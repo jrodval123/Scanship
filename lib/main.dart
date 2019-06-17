@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import './pages/scan.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,6 +12,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
       ),
       home: MyHomePage(title: 'Scanship'),
+      routes: {
+        '/scan': (BuildContext context) => Scan()
+      },
     );
   }
 }
@@ -42,7 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
              ),
              ListTile(
                title: Text("Escanear"),
-               onTap: (){},
+               onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Scan()));
+               },
              ),
              ListTile(
                title: Text("Proceso 2"),

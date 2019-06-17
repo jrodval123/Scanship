@@ -3,11 +3,14 @@ PODS:
     - Flutter
     - MTBBarcodeScanner
   - Flutter (1.0.0)
+  - image_picker (0.0.1):
+    - Flutter
   - MTBBarcodeScanner (5.0.11)
 
 DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -18,10 +21,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/barcode_scan/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
 
 SPEC CHECKSUMS:
   barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  image_picker: 16e5fec1fbc87fd3b297c53e4048521eaf17cd06
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
