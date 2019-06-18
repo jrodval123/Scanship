@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/services.dart';
 class Scan extends StatefulWidget{
   @override
