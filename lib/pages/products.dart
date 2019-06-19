@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './create.dart';
+import './product-edit.dart';
 
 class Products extends StatefulWidget{
   @override
@@ -20,7 +20,7 @@ class _ProductsState extends State<Products>{
           IconButton(
             icon: Icon(Icons.add),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Create()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductEdit()));
             },
           )
         ],
