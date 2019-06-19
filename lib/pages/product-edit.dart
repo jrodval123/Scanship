@@ -22,17 +22,18 @@ class _ProductEdit extends State<ProductEdit>{
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameFocusNode = FocusNode();
   final _barcodeFocusNode = FocusNode();
+  final _codeFocusNode = FocusNode();
 
   Widget _buildNameField(Product product){
     return EnsureVisibleWhenFocused(
       focusNode: _nameFocusNode,
       child: TextFormField(
         focusNode: _nameFocusNode,
-        decoration: InputDecoration(labelText: "Product Name"),
+        decoration: InputDecoration(labelText: "Nombre del Producto",),
         initialValue: product == null ? '' : product.name,
         validator: (String value) {
           if (value.isEmpty || value.length <= 0) {
-            return 'Title is required';
+            return 'Nombre es obligatorio';
           }
         },
         onSaved: (String value) {
@@ -41,7 +42,24 @@ class _ProductEdit extends State<ProductEdit>{
       ),
     );
   }
-
+  Widget _buildCodeField(Product product){
+    return EnsureVisibleWhenFocused(
+      focusNode: _codeFocusNode,
+      child: TextFormField(
+        focusNode: _codeFocusNode,
+        decoration: InputDecoration(labelText: "Codigo Sistema"),
+        initialValue: product == null ? '' : product.code,
+        validator: (String value) {
+          if (value.isEmpty || value.length <= 0) {
+            return 'Codigo es obligatorio';
+          }
+        },
+        onSaved: (String value) {
+          _formData['code'] = value;
+        },
+      ),
+    );
+  }
   Widget _buildPageContent(BuildContext context, Product product){
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
@@ -57,7 +75,8 @@ class _ProductEdit extends State<ProductEdit>{
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
             children: <Widget>[
-              _buildNameField(product)
+              _buildNameField(product),
+              _buildCodeField(product)
             ],
           ),
         )
@@ -70,7 +89,7 @@ class _ProductEdit extends State<ProductEdit>{
       appBar: AppBar(
         title: Text("Administrador de Productos"),
       ),
-      body: _buildPageContent(context, Product('test Product', '099091203')),
+      body: _buildPageContent(context, Product('test Product', '099091203', '0090')),
     );
   }
 }
