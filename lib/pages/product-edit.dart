@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
+import '../scoped-models/product.dart';
 import '../helpers/ensure_visible.dart';
 
 class ProductEdit extends StatefulWidget{
@@ -96,20 +98,62 @@ class _ProductEdit extends State<ProductEdit>{
             children: <Widget>[
               _buildNameField(product),
               _buildCodeField(product),
-              _buildBarCodeField(product)
+              _buildBarCodeField(product),
+              _buildSubmitButton()
             ],
           ),
         )
       ),
     );
   }
+
+  Widget _buildSubmitButton() {
+    return ScopedModelDescendant<ProductModel>(
+      builder: (BuildContext context, Widget child, ProductModel model) {
+        return RaisedButton(
+          child: Text('Save'),
+          textColor: Colors.black,
+          onPressed: () => _submitForm(model.addProduct, model.updateProduct,
+              model.selectedProductIndex),
+        );
+      },
+    );
+  }
+
+  void _submitForm(Function addProduct, Function updateProduct,
+      [int selectedProductIndex]) {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    if (selectedProductIndex == null) {
+      final newProduct = Product(_formData['name'], _formData['code'],
+            _formData['barcode']);
+      addProduct(newProduct);
+    } else {
+      updateProduct(
+        Product(_formData['name'], _formData['code'],
+            _formData['barcode']),
+      );
+    }
+    // Navigator.pushReplacementNamed(context, '/pharmacy-mode');
+    Navigator.pop(context);
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Administrador de Productos"),
-      ),
-      body: _buildPageContent(context, Product('test Product', '099091203', '0090')),
+    return ScopedModelDescendant<ProductModel>(
+      builder: (BuildContext context, Widget child, ProductModel model) {
+        final Widget pageContent =
+            _buildPageContent(context, model.selectedProduct);
+        return model.selectedProductIndex == null
+            ? pageContent
+            : Scaffold(
+                appBar: AppBar(
+                  title: Text('Edit Product'),
+                ),
+                body: pageContent,
+              );
+      },
     );
   }
 }
