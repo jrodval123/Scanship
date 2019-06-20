@@ -77,6 +77,7 @@ class _ProductEdit extends State<ProductEdit>{
             children: <Widget>[
               _buildNameField(product),
               _buildCodeField(product)
+
             ],
           ),
         )
