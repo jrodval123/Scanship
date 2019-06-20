@@ -21,7 +21,7 @@ class _ProductEdit extends State<ProductEdit>{
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameFocusNode = FocusNode();
-  final _barcodeFocusNode = FocusNode();
+  //final _barcodeFocusNode = FocusNode();
   final _codeFocusNode = FocusNode();
 
   Widget _buildNameField(Product product){
