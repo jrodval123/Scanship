@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './pages/scan.dart';
+import './pages/products.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(title: 'Scanship'),
       routes: {
-        '/scan': (BuildContext context) => Scan()
+        '/scan': (BuildContext context) => Scan(),
+        '/products': (BuildContext context) => Products()
       },
     );
   }
@@ -31,39 +33,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) { 
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      drawer: Drawer(
-         child: ListView(
-           padding: EdgeInsets.zero,
-           children: <Widget>[
-             DrawerHeader(
-               child: Text('Procesos'),
-             ),
-             ListTile(
-               title: Text("Escanear"),
-               onTap: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Scan()));
-               },
-             ),
-             ListTile(
-               title: Text("Proceso 2"),
-               onTap: (){},
-             )
-           ],
-         ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-          ],
-        ),
-      ),
-// This trailing comma makes auto-formatting nicer for build methods.
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: <Widget>[
+          GestureDetector(
+            child: Card(
+              child: Text("Escanear"),
+            ),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Scan()));
+            },
+          ),
+          GestureDetector(
+            child: Card(
+              child: Text("Productos"),
+            ),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Products()));
+            },
+          ),
+        ],
+      )
     );
   }
 }
