@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './pages/scan.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import './pages/products.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
