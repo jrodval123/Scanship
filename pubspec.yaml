@@ -25,6 +25,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   barcode_scan: ^0.0.4
   image_picker: ^0.6.0+9
+  scoped_model: ^0.3.0
+  firebase_core: ^0.2.5  # add dependency for Firebase Core
+  google_sign_in:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:

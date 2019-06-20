@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>324521253004-239esrr4lefebluu9ig2n4dl6a3v01bn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.324521253004-239esrr4lefebluu9ig2n4dl6a3v01bn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDiQEs78yPI9s9vHHp2qrCOUG1jfg5cNFw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>324521253004</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>jesusrod31.scanship</string>
+	<key>PROJECT_ID</key>
+	<string>scanship-27d7a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>scanship-27d7a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:324521253004:ios:eb8afa2a376b54c7</string>
+	<key>DATABASE_URL</key>
+	<string>https://scanship-27d7a.firebaseio.com</string>
+</dict>
+</plist>
