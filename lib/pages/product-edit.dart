@@ -74,7 +74,7 @@ class _ProductEdit extends State<ProductEdit>{
           }
         },
         onSaved: (String value) {
-          _formData['code'] = value;
+          _formData['barcode'] = value;
         },
       ),
     );
@@ -95,13 +95,8 @@ class _ProductEdit extends State<ProductEdit>{
             padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
             children: <Widget>[
               _buildNameField(product),
-<<<<<<< HEAD
-              _buildCodeField(product)
-
-=======
               _buildCodeField(product),
               _buildBarCodeField(product)
->>>>>>> master
             ],
           ),
         )
