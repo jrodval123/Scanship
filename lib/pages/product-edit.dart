@@ -60,6 +60,25 @@ class _ProductEdit extends State<ProductEdit>{
       ),
     );
   }
+
+  Widget _buildBarCodeField(Product product){
+    return EnsureVisibleWhenFocused(
+      focusNode: _barcodeFocusNode,
+      child: TextFormField(
+        focusNode: _barcodeFocusNode,
+        decoration: InputDecoration(labelText: "Codigo de Barras"),
+        initialValue: product == null ? '' : product.barcode,
+        validator: (String value) {
+          if (value.isEmpty || value.length <= 0) {
+            return 'Codigo de barras es obligatorio';
+          }
+        },
+        onSaved: (String value) {
+          _formData['code'] = value;
+        },
+      ),
+    );
+  }
   Widget _buildPageContent(BuildContext context, Product product){
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
@@ -76,8 +95,13 @@ class _ProductEdit extends State<ProductEdit>{
             padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
             children: <Widget>[
               _buildNameField(product),
+<<<<<<< HEAD
               _buildCodeField(product)
 
+=======
+              _buildCodeField(product),
+              _buildBarCodeField(product)
+>>>>>>> master
             ],
           ),
         )

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0fbaaef9557f856a3734b6b9bb94fb58ac7e1406
 import 'package:flutter/services.dart';
 class Scan extends StatefulWidget{
   @override
