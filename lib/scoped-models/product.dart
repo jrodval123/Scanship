@@ -9,6 +9,7 @@ class ProductModel extends Model{
   List<Product> _products = [];
   List<Product> _truckProducts = [];
 
+  bool onTruck;
   int _selectedProductIndex;
   
   final CollectionReference collectionReference =
@@ -54,9 +55,9 @@ class ProductModel extends Model{
   }
 
   //Returns a boolean to see if the user wants to display the cart products only
-  // bool get displayCartOnly {
-  //   return showOnCart;
-  // }
+  bool get displayCartOnly {
+    return onTruck;
+  }
 
   //Updates the product whenever it its editted.
   void updateProduct(
@@ -78,21 +79,21 @@ class ProductModel extends Model{
   }
 
   //Display only the items on the cart
-  // void toggleDisplayCart() {
-  //   showOnCart = !showOnCart;
-  //   notifyListeners();
-  // }
+  void toggleDisplayCart() {
+    onTruck = !onTruck;
+    notifyListeners();
+  }
 
   //Updates the status of the cart
-  // void toggleProductOnCartStatus() {
-  //   final bool isCurrentlyOnCart = selectedProduct.onCart;
-  //   final bool newOncartStatus = !isCurrentlyOnCart;
-  //   final Product updatedProduct = new Product(selectedProduct.name,
-  //       selectedProduct.desc, selectedProduct.imgurl, selectedProduct.price);
-  //   updatedProduct.onCart = newOncartStatus;
-  //   _products[selectedProductIndex] = updatedProduct;
-  //   notifyListeners();
-  // }
+  void toggleProductOnCartStatus() {
+    final bool isCurrentlyOnCart = selectedProduct.loaded;
+    final bool newOncartStatus = !isCurrentlyOnCart;
+    final Product updatedProduct = new Product(selectedProduct.name,
+        selectedProduct.code, selectedProduct.barcode);
+    updatedProduct.loaded = newOncartStatus;
+    _products[selectedProductIndex] = updatedProduct;
+    notifyListeners();
+  }
 
   //Fetches the products stored in the DB and add it to the Products List
   void fetchProducts() {

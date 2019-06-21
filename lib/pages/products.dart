@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './product-edit.dart';
+import './product_edit.dart';
+import './product_list.dart';
 
 class Products extends StatefulWidget{
   @override
@@ -13,36 +14,28 @@ class Products extends StatefulWidget{
 class _ProductsState extends State<Products>{
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Productos"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductEdit()));
-            },
-          )
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          ListTile(
-            title: Text("Escanear"),
-            onTap: (){
-              Navigator.pop(context);
-            },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(255, 222, 3, 1.0),
+          title: Text('Administrador de Productos'),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(Icons.create),
+                text: 'Crear Producto',
+              ),
+              Tab(
+                icon: Icon(Icons.list),
+                text: 'My Products',
+              ),
+            ],
           ),
-          ListTile(
-            title: Text("Escanear"),
-            onTap: (){
-            },
-          ),ListTile(
-            title: Text("Escanear"),
-            onTap: (){
-            },
-          )
-        ],
+        ),
+        body: TabBarView(
+          children: <Widget>[ProductEdit(), ProductListPage()],
+        ),
       ),
     );
   }
