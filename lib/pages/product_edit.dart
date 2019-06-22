@@ -81,30 +81,10 @@ class _ProductEditState extends State<ProductEdit> {
             color: Colors.yellow,
             onPressed: (){
               barcodeScanning();
-              // _formData['barcode'] = barcode;
             },
           ),),
         ],
       )
-      // TextFormField(
-      //   focusNode: _barcodeFocusNode,
-      //   decoration: InputDecoration(
-      //       labelText: "Codigo de Barras",
-      //       suffixIcon: IconButton(
-      //         icon: Icon(Icons.camera_alt),
-      //         onPressed: () {
-      //           barcodeScanning();
-      //         },
-      //       )),
-      //   validator: (String value) {
-      //     if (value.isEmpty || value.length <= 0) {
-      //       return 'Codigo de barras es obligatorio';
-      //     }
-      //   },
-      //   onSaved: (String value) {
-      //     _formData['barcode'] = value;
-      //   },
-      // ),
     );
   }
 

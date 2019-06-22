@@ -38,9 +38,9 @@ class ProductListPage extends StatelessWidget{
               child: Column(
                 children: <Widget>[
                   ListTile(
-                    // leading: CircleAvatar(
-                    //   backgroundImage: NetworkImage(model.allProducts[index].imgurl),
-                    // ),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage('http://cdn.onlinewebfonts.com/svg/img_191109.png'),
+                    ),
                     title: Text(model.allProducts[index].name),
                     trailing: _buildEditButton(context, index, model),
                   ),
