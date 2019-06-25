@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import '../scoped-models/product.dart';
 import './product_edit.dart';
 import 'package:scoped_model/scoped_model.dart';
-class ProductListPage extends StatelessWidget{
 
-  Widget _buildEditButton(BuildContext context, int index, ProductModel model){
+class ProductListPage extends StatelessWidget {
+  Widget _buildEditButton(
+      BuildContext context, int index, ProductModel model) {
     return IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
-            model.selectProduct(index);
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (BuildContext context) {
-              return ProductEdit();
-            }));
-          },
+        model.selectProduct(index);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
+          return ProductEdit();
+        }));
+      },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<ProductModel>(
@@ -39,12 +41,15 @@ class ProductListPage extends StatelessWidget{
                 children: <Widget>[
                   ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage('http://cdn.onlinewebfonts.com/svg/img_191109.png'),
+                      backgroundImage:
+                          NetworkImage(''),
                     ),
                     title: Text(model.allProducts[index].name),
+                    // subtitle:
+                    //     Text('\$${model.allProducts[index].price.toString()}'),
                     trailing: _buildEditButton(context, index, model),
                   ),
-                  Divider()
+                  Divider(),
                 ],
               ),
             );
@@ -54,5 +59,4 @@ class ProductListPage extends StatelessWidget{
       },
     );
   }
-
 }

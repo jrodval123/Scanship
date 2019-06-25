@@ -39,6 +39,7 @@ class ProductModel extends Model{
       'barcode': product.barcode
     });
     _products.add(product);
+    print(_products.length);
     notifyListeners();
   }  
 
@@ -102,14 +103,16 @@ class ProductModel extends Model{
       snaphot.documents.forEach((document) {
         final Product newProduct = Product(
             document.data['name'],
-            document.data['code'],
             document.data['barcode'],
+            document.data['code'],
         );
         fetchedProducts.add(newProduct);
+        print(fetchedProducts.length);
       });
       _products = fetchedProducts;
       notifyListeners();
     });
+    notifyListeners();
   }
 
   //Fetches the products stored in the DB and adds them to the orders list

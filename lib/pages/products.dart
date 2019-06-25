@@ -28,7 +28,7 @@ class _ProductsState extends State<Products>{
               ),
               Tab(
                 icon: Icon(Icons.list),
-                text: 'My Products',
+                text: 'Lista de Productos',
               ),
             ],
           ),

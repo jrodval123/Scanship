@@ -4,6 +4,7 @@ import 'package:scoped_model/scoped_model.dart';
 import './pages/scan.dart';
 import './pages/products.dart';
 import './scoped-models/product.dart';
+import 'pages/product_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           './scan': (BuildContext context) => Scan(),
-          './products': (BuildContext context) => Products()
+          './products': (BuildContext context) => Products(),
+          './product-list': (BuildContext context) => ProductListPage()
         },
       ),
     );

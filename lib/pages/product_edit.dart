@@ -69,30 +69,33 @@ class _ProductEditState extends State<ProductEdit> {
 
   Widget _buildBarCodeField(Product product) {
     return EnsureVisibleWhenFocused(
-      focusNode: _barcodeFocusNode,
-      child: Column(
-        children: <Widget>[
-          Text("Codigo de barra : \n" + barcode,),
-          SizedBox(
-                  height: 10.0,
-                ),
-          Container(child: CupertinoButton(
-            child: Text("Escanear codigo de barra"),
-            color: Colors.yellow,
-            onPressed: (){
-              barcodeScanning();
-            },
-          ),),
-        ],
-      )
-    );
+        focusNode: _barcodeFocusNode,
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Codigo de barra : \n" + barcode,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              child: CupertinoButton(
+                child: Text("Escanear codigo de barra"),
+                color: Colors.yellow,
+                onPressed: () {
+                  barcodeScanning();
+                },
+              ),
+            ),
+          ],
+        ));
   }
 
   Future barcodeScanning() async {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      _formData['barcode']=this.barcode;
+      _formData['barcode'] = this.barcode;
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -144,8 +147,11 @@ class _ProductEditState extends State<ProductEdit> {
       builder: (BuildContext context, Widget child, ProductModel model) {
         return CupertinoButton(
           child: Text('Crear'),
-          onPressed: () => _submitForm(model.addProduct, model.updateProduct,
-              model.selectedProductIndex),
+          onPressed: () {
+            _submitForm(model.addProduct, model.updateProduct,
+                model.selectedProductIndex);
+            printlist(model);
+          },
           color: Colors.yellow,
         );
       },
@@ -187,5 +193,9 @@ class _ProductEditState extends State<ProductEdit> {
               );
       },
     );
+  }
+
+  void printlist(ProductModel model) {
+    print(model.allProducts);
   }
 }

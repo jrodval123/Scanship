@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
-class Scan extends StatefulWidget{
+
+class Scan extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _ScanState();
   }
 }
 
-class _ScanState extends State<Scan>{
+class _ScanState extends State<Scan> {
   String barcode = "";
 
   @override
@@ -26,21 +27,23 @@ class _ScanState extends State<Scan>{
         child: Column(
           children: <Widget>[
             new Container(
-                  child: new RaisedButton(
-                      onPressed: barcodeScanning, child: new Text("Escanear")),
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                new Padding(
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                new Text("Barcode Number after Scan : " + barcode),
+              child: new RaisedButton(
+                  onPressed: barcodeScanning, child: new Text("Escanear")),
+              padding: const EdgeInsets.all(8.0),
+            ),
+            new Padding(
+              padding: const EdgeInsets.all(8.0),
+            ),
+            new Text("Barcode Number after Scan : " + barcode),
           ],
         ),
       ),
     );
   }
 
-   Future barcodeScanning() async{
+  
+
+  Future barcodeScanning() async {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
@@ -53,8 +56,7 @@ class _ScanState extends State<Scan>{
         setState(() => this.barcode = 'Unknown error: $e');
       }
     } on FormatException {
-      setState(() => this.barcode =
-          'Nothing captured.');
+      setState(() => this.barcode = 'Nothing captured.');
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
