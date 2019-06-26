@@ -5,7 +5,7 @@ import './pages/scan.dart';
 import './pages/products.dart';
 import './scoped-models/product.dart';
 import 'pages/product_list.dart';
-
+import 'dart:io';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           './products': (BuildContext context) => Products(),
           './product-list': (BuildContext context) => ProductListPage()
         },
+        
       ),
     );
   }
