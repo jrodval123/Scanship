@@ -29,7 +29,7 @@ dependencies:
   firebase_core: ^0.2.5  # add dependency for Firebase Core
   google_sign_in:
   cloud_firestore:
-  path_provider: ^1.1.0
+  firebase_database: 
 
 dev_dependencies:
   flutter_test:
