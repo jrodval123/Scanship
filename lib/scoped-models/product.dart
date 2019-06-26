@@ -3,6 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class ProductModel extends Model{
 
@@ -12,6 +13,10 @@ class ProductModel extends Model{
   bool onTruck;
   int _selectedProductIndex;
   
+  //Firebase DB reference
+  final dbref = FirebaseDatabase.instance.reference();
+
+  //FireStore reference
   final CollectionReference collectionReference =
       Firestore.instance.collection('products');
   
@@ -33,6 +38,11 @@ class ProductModel extends Model{
 
   // Add products to the firestore once it its created
   void addProduct(Product product){
+    dbref.child("1").set({
+      'name': product.name,
+      'code':product.code,
+      'barcode':product.barcode
+    });
     Firestore.instance.collection('products').document().setData({
       'name': product.name,
       'code': product.code,
