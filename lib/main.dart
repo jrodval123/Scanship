@@ -5,7 +5,6 @@ import './pages/scan.dart';
 import './pages/products.dart';
 import './scoped-models/product.dart';
 import 'pages/product_list.dart';
-import 'dart:io';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
