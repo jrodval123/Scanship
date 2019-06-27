@@ -38,12 +38,12 @@ class ProductModel extends Model{
 
   // Add products to the firestore once it its created
   void addProduct(Product product){
-    dbref.child("1").set({
+    dbref.child("products").child("000"+_products.length.toString()).set({
       'name': product.name,
       'code':product.code,
       'barcode':product.barcode
     });
-    dbref.ch
+
     Firestore.instance.collection('products').document().setData({
       'name': product.name,
       'code': product.code,
