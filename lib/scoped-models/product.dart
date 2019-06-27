@@ -35,7 +35,7 @@ class ProductModel extends Model {
 
   // Add products to the firestore once it its created
   void addProduct(Product product){
-    dbref.child("1").set({
+    dbref.child("product").child('000'+_products.length.toString()).set({
       'name': product.name,
       'code':product.code,
       'barcode':product.barcode
@@ -117,6 +117,11 @@ class ProductModel extends Model {
       });
       _products = fetchedProducts;
       notifyListeners();
+    });
+    dbref.once().then((DataSnapshot snapshot){
+        final Product prod = Product(snapshot.value.name,snapshot.value.barcode,snapshot.value.code);
+        fetchedProducts.add(prod);
+        _products= fetchedProducts;
     });
     notifyListeners();
   }
