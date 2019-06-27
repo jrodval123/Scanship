@@ -31,6 +31,9 @@ PODS:
   - firebase_core (0.0.1):
     - Firebase/Core
     - Flutter
+  - firebase_database (0.0.1):
+    - Firebase/Database
+    - Flutter
   - FirebaseAnalytics (6.0.2):
     - FirebaseCore (~> 6.0)
     - FirebaseInstanceID (~> 4.2)
@@ -145,6 +148,7 @@ DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `.symlinks/flutter/ios-release`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
@@ -179,6 +183,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_database:
+    :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: ".symlinks/flutter/ios-release"
   google_sign_in:
@@ -192,6 +198,7 @@ SPEC CHECKSUMS:
   cloud_firestore: c575f263eb7033afb7d407e6264b21d6e622a061
   Firebase: 8432d732974498afd5987e9001a05f90f1a3d625
   firebase_core: ce5006bb48508ee4e71e0f429a3f519bb8ee2961
+  firebase_database: 99b15d6a0536ee969200b6eaf69bcd0b15b7b114
   FirebaseAnalytics: 470ddab7253b21ad5a40bebd4a9903d7ae19386a
   FirebaseAuth: 7fa2cc010b93770831a4e7a60651b52c3b8d111a
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
