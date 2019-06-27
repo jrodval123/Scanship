@@ -1,9 +1,12 @@
+
 import 'package:scoped_model/scoped_model.dart';
+
 import '../models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class ProductModel extends Model {
+class ProductModel extends Model{
+
   List<Product> _products = [];
   List<Product> _truckProducts = [];
 
@@ -16,30 +19,31 @@ class ProductModel extends Model {
   //FireStore reference
   final CollectionReference collectionReference =
       Firestore.instance.collection('products');
-
+  
   // Return elements from the product list
-  List<Product> get allProducts {
+  List<Product> get allProducts{
     return List.from(_products);
   }
 
   // Return elements from the truck list
-  List<Product> get allTruckProducts {
+  List<Product> get allTruckProducts{
     return List.from(_truckProducts);
   }
 
   //Add products to the truck
-  void addToTruck(Product product) {
+  void addToTruck(Product product){
     _truckProducts.add(product);
     notifyListeners();
   }
 
   // Add products to the firestore once it its created
   void addProduct(Product product){
-    dbref.child("product").child('000'+_products.length.toString()).set({
+    dbref.child("1").set({
       'name': product.name,
       'code':product.code,
       'barcode':product.barcode
     });
+    dbref.ch
     Firestore.instance.collection('products').document().setData({
       'name': product.name,
       'code': product.code,
@@ -48,7 +52,7 @@ class ProductModel extends Model {
     _products.add(product);
     print(_products.length);
     notifyListeners();
-  }
+  }  
 
   int get selectedProductIndex {
     return _selectedProductIndex;
@@ -68,7 +72,8 @@ class ProductModel extends Model {
   }
 
   //Updates the product whenever it its editted.
-  void updateProduct(String name, String code, String barcode) {
+  void updateProduct(
+      String name, String code, String barcode) {
     final Product updatedProduct = Product(name, code, barcode);
     _products[_selectedProductIndex] = updatedProduct;
     notifyListeners();
@@ -95,8 +100,8 @@ class ProductModel extends Model {
   void toggleProductOnCartStatus() {
     final bool isCurrentlyOnCart = selectedProduct.loaded;
     final bool newOncartStatus = !isCurrentlyOnCart;
-    final Product updatedProduct = new Product(
-        selectedProduct.name, selectedProduct.code, selectedProduct.barcode);
+    final Product updatedProduct = new Product(selectedProduct.name,
+        selectedProduct.code, selectedProduct.barcode);
     updatedProduct.loaded = newOncartStatus;
     _products[selectedProductIndex] = updatedProduct;
     notifyListeners();
@@ -108,20 +113,15 @@ class ProductModel extends Model {
     collectionReference.getDocuments().then((QuerySnapshot snaphot) {
       snaphot.documents.forEach((document) {
         final Product newProduct = Product(
-          document.data['name'],
-          document.data['barcode'],
-          document.data['code'],
+            document.data['name'],
+            document.data['barcode'],
+            document.data['code'],
         );
         fetchedProducts.add(newProduct);
         print(fetchedProducts.length);
       });
       _products = fetchedProducts;
       notifyListeners();
-    });
-    dbref.once().then((DataSnapshot snapshot){
-        final Product prod = Product(snapshot.value.name,snapshot.value.barcode,snapshot.value.code);
-        fetchedProducts.add(prod);
-        _products= fetchedProducts;
     });
     notifyListeners();
   }
@@ -144,4 +144,3 @@ class ProductModel extends Model {
   //   });
   // }
 }
-
