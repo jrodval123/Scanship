@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           './scan': (BuildContext context) => Scan(),
-          './products': (BuildContext context) => Products(),
+          './products': (BuildContext context) => Products(ProductModel()),
           './product-list': (BuildContext context) => ProductListPage()
         },
         
@@ -101,7 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Products()));
+                    MaterialPageRoute(builder: (context) => Products(ProductModel())));
+                    ProductModel().fetchProducts();
               },
             ),
           ],

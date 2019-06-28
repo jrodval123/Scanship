@@ -22,6 +22,7 @@ class ProductListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<ProductModel>(
       builder: (BuildContext context, Widget child, ProductModel model) {
+        model.fetchProducts();
         return ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
@@ -42,7 +43,7 @@ class ProductListPage extends StatelessWidget {
                   ListTile(
                     leading: CircleAvatar(
                       backgroundImage:
-                          NetworkImage(''),
+                          NetworkImage('https://cdn1.iconfinder.com/data/icons/storage-2/24/537-512.png'),
                     ),
                     title: Text(model.allProducts[index].name),
                     // subtitle:

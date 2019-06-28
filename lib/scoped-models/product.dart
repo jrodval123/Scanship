@@ -109,11 +109,10 @@ class ProductModel extends Model{
   //Fetches the products stored in the DB and add it to the Products List
   void fetchProducts() {
     final List<Product> fetchedProducts = [];
-    dbref.child('products').once().then((DataSnapshot snap){
+    dbref.child("products").once().then((DataSnapshot snap){
 
       var KEYS = snap.value.keys;
       var DATA = snap.value;
-      fetchedProducts.clear();
       for(var key in KEYS){
         Product newProduct = Product(DATA[key]['name'],DATA[key]['barcode'], DATA[key]['code']);
         fetchedProducts.add(newProduct);
@@ -121,20 +120,17 @@ class ProductModel extends Model{
       notifyListeners();
       _products = fetchedProducts;
     });
-    collectionReference.getDocuments().then((QuerySnapshot snaphot) {
-      snaphot.documents.forEach((document) {
-        final Product newProduct = Product(
-            document.data['name'],
-            document.data['barcode'],
-            document.data['code'],
-        );
-        fetchedProducts.add(newProduct);
-        print(fetchedProducts.length);
-      });
-      _products = fetchedProducts;
-      notifyListeners();
-    });
-    notifyListeners();
+    // collectionReference.getDocuments().then((QuerySnapshot snapshot){
+    //   snapshot.documents.forEach((document){
+    //     final newProduct = Product(document.data['name'], document.data['barcode'], document.data['code']);
+    //     fetchedProducts.add(newProduct);
+    //   });
+    //   _products=fetchedProducts;
+    //   notifyListeners();
+    // });
+  }
+  void printsize(){
+    print(_products.length);
   }
 
   //Fetches the products stored in the DB and adds them to the orders list

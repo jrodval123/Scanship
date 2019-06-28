@@ -151,6 +151,7 @@ class _ProductEditState extends State<ProductEdit> {
             _submitForm(model.addProduct, model.updateProduct,
                 model.selectedProductIndex);
             printlist(model);
+            model.printsize();
           },
           color: Colors.yellow,
         );
