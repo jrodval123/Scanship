@@ -43,7 +43,6 @@ class ProductModel extends Model{
       'code':product.code,
       'barcode':product.barcode
     });
-
     Firestore.instance.collection('products').document().setData({
       'name': product.name,
       'code': product.code,
@@ -110,6 +109,18 @@ class ProductModel extends Model{
   //Fetches the products stored in the DB and add it to the Products List
   void fetchProducts() {
     final List<Product> fetchedProducts = [];
+    dbref.child('products').once().then((DataSnapshot snap){
+
+      var KEYS = snap.value.keys;
+      var DATA = snap.value;
+      fetchedProducts.clear();
+      for(var key in KEYS){
+        Product newProduct = Product(DATA[key]['name'],DATA[key]['barcode'], DATA[key]['code']);
+        fetchedProducts.add(newProduct);
+      }
+      notifyListeners();
+      _products = fetchedProducts;
+    });
     collectionReference.getDocuments().then((QuerySnapshot snaphot) {
       snaphot.documents.forEach((document) {
         final Product newProduct = Product(
