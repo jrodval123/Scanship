@@ -111,10 +111,10 @@ class ProductModel extends Model{
     final List<Product> fetchedProducts = [];
     dbref.child("products").once().then((DataSnapshot snap){
 
-      var KEYS = snap.value.keys;
-      var DATA = snap.value;
-      for(var key in KEYS){
-        Product newProduct = Product(DATA[key]['name'],DATA[key]['barcode'], DATA[key]['code']);
+      var keys = snap.value.keys;
+      var data = snap.value;
+      for(var key in keys){
+        Product newProduct = Product(data[key]['name'],data[key]['barcode'], data[key]['code']);
         fetchedProducts.add(newProduct);
       }
       notifyListeners();
