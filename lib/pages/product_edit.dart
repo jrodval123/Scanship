@@ -175,7 +175,7 @@ class _ProductEditState extends State<ProductEdit> {
       );
     }
     // Navigator.pushReplacementNamed(context, '/pharmacy-mode');
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, '/product-list');
   }
 
   @override

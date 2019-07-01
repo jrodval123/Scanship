@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           title: "Scanship",
         ),
         routes: {
-          './scan': (BuildContext context) => Scan(),
+          './scan': (BuildContext context) => Scan(ProductModel()),
           './products': (BuildContext context) => Products(ProductModel()),
           './product-list': (BuildContext context) => ProductListPage()
         },
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Scan()));
+                    context, MaterialPageRoute(builder: (context) => Scan(ProductModel())));
               },
             ),
             GestureDetector(

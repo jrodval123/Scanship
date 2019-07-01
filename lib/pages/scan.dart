@@ -1,19 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:scanship/scoped-models/product.dart';
 
 class Scan extends StatefulWidget {
+  final ProductModel model;
+  Scan(this.model);
+
   @override
   State<StatefulWidget> createState() {
-    return _ScanState();
+    return _ScanState(model);
   }
 }
 
 class _ScanState extends State<Scan> {
   String barcode = "";
-
+  String name = "";
+  final ProductModel model;
+  _ScanState(this.model);
   @override
   void initState() {
+    model.fetchProducts();
     super.initState();
   }
 
@@ -34,19 +43,34 @@ class _ScanState extends State<Scan> {
             new Padding(
               padding: const EdgeInsets.all(8.0),
             ),
-            new Text("Barcode Number after Scan : " + barcode),
+            new Container(
+              child: DecoratedBox(
+
+                  child: Text(
+                    "Producto : " + barcode,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue[100], style: BorderStyle.solid,),
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                      margin: const EdgeInsets.all(30.0),
+                      padding: const EdgeInsets.all(30.0),
+                      
+            ),
           ],
         ),
       ),
     );
   }
 
-  
-
   Future barcodeScanning() async {
     try {
       String barcode = await BarcodeScanner.scan();
-      setState(() => this.barcode = barcode);
+      setState(() {
+        model.fetchProducts();
+        this.barcode = model.check(barcode);
+        // name = model.check(barcode);
+      });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {

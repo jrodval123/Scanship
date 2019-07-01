@@ -120,19 +120,22 @@ class ProductModel extends Model{
       notifyListeners();
       _products = fetchedProducts;
     });
-    // collectionReference.getDocuments().then((QuerySnapshot snapshot){
-    //   snapshot.documents.forEach((document){
-    //     final newProduct = Product(document.data['name'], document.data['barcode'], document.data['code']);
-    //     fetchedProducts.add(newProduct);
-    //   });
-    //   _products=fetchedProducts;
-    //   notifyListeners();
-    // });
   }
   void printsize(){
     print(_products.length);
   }
 
+  String check(String barcode){
+    fetchProducts();
+    String name ="";
+    List<Product> prods = _products;
+    for (var prod in prods){
+      if(prod.barcode == barcode){
+        name = prod.name;
+      }
+    }
+    return name;
+  }
   //Fetches the products stored in the DB and adds them to the orders list
   // void fetchOrders() {
   //   List<Order> fetchedOrders = [];
