@@ -134,6 +134,7 @@ class ProductModel extends Model{
         name = prod.name;
       }
     }
+    if(name==""){return "N?A";}
     return name;
   }
   //Fetches the products stored in the DB and adds them to the orders list

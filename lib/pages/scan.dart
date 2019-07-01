@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:scanship/pages/products.dart';
 import 'package:scanship/scoped-models/product.dart';
 
 class Scan extends StatefulWidget {
@@ -29,38 +30,108 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Escanear Codigo de Barras"),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            new Container(
-              child: new RaisedButton(
-                  onPressed: barcodeScanning, child: new Text("Escanear")),
-              padding: const EdgeInsets.all(8.0),
-            ),
-            new Padding(
-              padding: const EdgeInsets.all(8.0),
-            ),
-            new Container(
-              child: DecoratedBox(
-
-                  child: Text(
-                    "Producto : " + barcode,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue[100], style: BorderStyle.solid,),
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                      margin: const EdgeInsets.all(30.0),
-                      padding: const EdgeInsets.all(30.0),
-                      
-            ),
-          ],
+        appBar: AppBar(
+          title: Text("Escanear Codigo de Barras"),
         ),
-      ),
-    );
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: GridView.count(
+                crossAxisCount: 2,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  GestureDetector(
+                    child: Card(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              child: Image.network(
+                            'https://images.vexels.com/media/users/3/157862/isolated/preview/5fc76d9e8d748db3089a489cdd492d4b-barcode-scanning-icon-by-vexels.png',
+                            height: 100.0,
+                            width: 400.0,
+                            fit: BoxFit.contain,
+                          )),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          Text(
+                            'Revisar Codigo',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      barcodeScanning();
+                    },
+                  ),
+                  GestureDetector(
+                    child: Card(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              child: Image.network(
+                            'https://cdn4.iconfinder.com/data/icons/eldorado-transport/40/truck_1-512.png',
+                            height: 100.0,
+                            width: 400.0,
+                            fit: BoxFit.contain,
+                          )),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          Text(
+                            'Empezar Orden',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          )
+                          // Text('Productos')
+                        ],
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+                child: Text(
+              "Producto : " + barcode,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ))
+          ],
+        ));
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Producto no encontrado"),
+            content: Text(
+                "El producto no se encuentra en la base de datos, ¿Desea agregarlo?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('No'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              FlatButton(
+                  child: Container(
+                    child: Text('Si'),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Products(ProductModel())));
+                  }),
+            ],
+          );
+        });
   }
 
   Future barcodeScanning() async {
@@ -69,6 +140,9 @@ class _ScanState extends State<Scan> {
       setState(() {
         model.fetchProducts();
         this.barcode = model.check(barcode);
+        if (this.barcode == "N?A") {
+          _showDialog();
+        }
         // name = model.check(barcode);
       });
     } on PlatformException catch (e) {

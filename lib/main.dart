@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 30.0,
                     ),
                     Text(
-                      'Escanear',
+                      'Procesos',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     )
