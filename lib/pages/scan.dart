@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:scanship/pages/create_order.dart';
 import 'package:scanship/pages/products.dart';
 import 'package:scanship/scoped-models/product.dart';
 
@@ -92,7 +93,10 @@ class _ScanState extends State<Scan> {
                         ],
                       ),
                     ),
-                    onTap: () {},
+                    onTap: ()=>Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateOrder(ProductModel()))),
                   ),
                 ],
               ),
