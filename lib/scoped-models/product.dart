@@ -2,6 +2,7 @@
 import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
+import '../models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -9,6 +10,7 @@ class ProductModel extends Model{
 
   List<Product> _products = [];
   List<Product> _truckProducts = [];
+  List<Order> _orders = [];
 
   bool onTruck;
   int _selectedProductIndex;
@@ -24,6 +26,11 @@ class ProductModel extends Model{
   List<Product> get allProducts{
     return List.from(_products);
   }
+  
+  // Return elements from the orders list
+  List<Order> get allOrders{
+    return List.from(_orders);
+  }
 
   // Return elements from the truck list
   List<Product> get allTruckProducts{
@@ -33,6 +40,12 @@ class ProductModel extends Model{
   //Add products to the truck
   void addToTruck(Product product){
     _truckProducts.add(product);
+    notifyListeners();
+  }
+
+  //Add Product to Order list
+  void addToOrder(Product product, List<Product> list){
+    list.add(product);
     notifyListeners();
   }
 
@@ -136,6 +149,17 @@ class ProductModel extends Model{
     }
     if(name==""){return "N?A";}
     return name;
+  }
+
+  Product checkInList(String barcode){
+    fetchProducts();
+    List<Product> prods = _products;
+    for (var prod in prods){
+      if(prod.barcode == barcode){
+        return prod;
+      }
+    }
+    return null;
   }
   //Fetches the products stored in the DB and adds them to the orders list
   // void fetchOrders() {

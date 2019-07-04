@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scanship/scoped-models/product.dart';
-import 'package:scoped_model/scoped_model.dart';
+import '../models/product.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
 
-class CreateOrder extends StatefulWidget{
+class CreateOrder extends StatefulWidget {
   final ProductModel model;
 
   CreateOrder(this.model);
@@ -13,11 +16,12 @@ class CreateOrder extends StatefulWidget{
   }
 }
 
-class _CreateOrderState extends State<CreateOrder>{
-  
+class _CreateOrderState extends State<CreateOrder> {
   final ProductModel model;
-  String barcode="";
-  String name="";
+  String barcode = "";
+  String name = "";
+
+  List<Product> order = [];
 
   _CreateOrderState(this.model);
 
@@ -29,57 +33,89 @@ class _CreateOrderState extends State<CreateOrder>{
 
   @override
   Widget build(BuildContext context) {
-   return ScopedModelDescendant<ProductModel>(
-     builder: (BuildContext context, Widget child, ProductModel model){
-       model.fetchProducts();
-       return ListView.builder(
-         itemBuilder: (BuildContext context, int index){
-           return Dismissible(
-              key: Key(model.allProducts[index].name),
-              onDismissed: (DismissDirection direction) {
-                model.selectProduct(index);
-                if (direction == DismissDirection.endToStart) {
-                  model.deleteProduct();
-                } else if (direction == DismissDirection.startToEnd) {
-                  print('Swiped start to end');
-                } else {
-                  print('Other swiping');
-                }
-              },
-              background: Container(color: Colors.red),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://cdn1.iconfinder.com/data/icons/storage-2/24/537-512.png'),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Orden "),
+          actions: <Widget>[
+            // IconButton(
+            //   icon: Icon(Icons.add),
+            //   onPressed: ()=>barcodeScanning(),
+            // ),
+            IconButton(
+              icon: Icon(Icons.save),
+              onPressed: () {},
+            )
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                itemBuilder: (BuildContext context, int index) {
+                  return Dismissible(
+                    key: Key(order[index].name),
+                    onDismissed: (DismissDirection direction) {
+                      if (direction == DismissDirection.endToStart) {}
+                    },
+                    background: Container(
+                      color: Colors.red,
                     ),
-                    title: Text(model.allProducts[index].name),
-                    // subtitle:
-                    //     Text('\$${model.allProducts[index].price.toString()}'),
-                    trailing: _buildEditButton(context, index, model),
-                  ),
-                  Divider(),
-                ],
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          leading: Container(
+                            child: Text(
+                              "1",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                          title: Text(order[index].name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18)),
+                        ),
+                        Divider(),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: order.length,
               ),
-            );
-         },
-         itemCount: model.allProducts.length,
-       );
-     },
-   );
+            ),
+            FlatButton(
+              onPressed: () => barcodeScanning(),
+              child: Icon(
+                Icons.add,
+                size: 30,
+              ),
+            ),
+          ],
+        ));
   }
-  Widget _buildEditButton(
-      BuildContext context, int index, ProductModel model) {
-    return IconButton(
-      icon: Icon(Icons.edit),
-      onPressed: () {
-        model.selectProduct(index);
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
-          return null;
-        }));
-      },
-    );
+
+  Future barcodeScanning() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() {
+        model.fetchProducts();
+        this.barcode = model.check(barcode);
+        order.add(model.checkInList(barcode));
+        if (this.barcode == "N?A") {}
+        // name = model.check(barcode);
+      });
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this.barcode = 'No camera permission!';
+        });
+      } else {
+        setState(() => this.barcode = 'Unknown error: $e');
+      }
+    } on FormatException {
+      setState(() => this.barcode = 'Nothing captured.');
+    } catch (e) {
+      setState(() => this.barcode = 'Unknown error: $e');
+    }
   }
 }
