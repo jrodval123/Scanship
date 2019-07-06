@@ -30,18 +30,19 @@ class _ProductsState extends State<Products>{
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
+                icon: Icon(Icons.list),
+                text: 'Productos',
+              ),
+              Tab(
                 icon: Icon(Icons.create),
                 text: 'Crear Producto',
               ),
-              Tab(
-                icon: Icon(Icons.list),
-                text: 'Lista de Productos',
-              ),
+              
             ],
           ),
         ),
         body: TabBarView(
-          children: <Widget>[ProductEdit(), ProductListPage()],
+          children: <Widget>[ProductListPage(),ProductEdit()],
         ),
       ),
     );

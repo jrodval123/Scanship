@@ -22,12 +22,14 @@ class _CreateOrderState extends State<CreateOrder> {
   String name = "";
 
   List<Product> order = [];
-
+  Map<String, int> _order = new Map();
+  List<Product> _products = [];
   _CreateOrderState(this.model);
 
   @override
   void initState() {
     model.fetchProducts();
+    _products = model.allProducts;
     super.initState();
   }
 
@@ -66,7 +68,7 @@ class _CreateOrderState extends State<CreateOrder> {
                         ListTile(
                           leading: Container(
                             child: Text(
-                              "1",
+                              order[index].qty.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
@@ -76,6 +78,9 @@ class _CreateOrderState extends State<CreateOrder> {
                                   fontWeight: FontWeight.bold, fontSize: 18)),
                         ),
                         Divider(),
+                        ListTile(
+                          title: Text(_order.toString()),
+                        )
                       ],
                     ),
                   );
@@ -99,8 +104,13 @@ class _CreateOrderState extends State<CreateOrder> {
       String barcode = await BarcodeScanner.scan();
       setState(() {
         model.fetchProducts();
-        this.barcode = model.check(barcode);
-        order.add(model.checkInList(barcode));
+        _products = model.allProducts;
+        this.barcode = checkName(barcode);
+        final Product prod = getProduct(barcode);
+        addToMap(prod);
+        addItem(getProduct(barcode));
+        // order.add(checkInList(barcode));
+        incrementQty(barcode);
         if (this.barcode == "N?A") {}
         // name = model.check(barcode);
       });
@@ -117,5 +127,88 @@ class _CreateOrderState extends State<CreateOrder> {
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
+  }
+
+  // Adds the product to the Map
+  void addToMap(Product product){
+    int counter=1;
+    if(_order.containsKey(product.name)){
+      counter++;
+      // _order.update(product.name, product.name = counter);
+      _order.update(product.name, (int)=>counter);
+    }
+    _order[product.name]= counter;
+  }
+  
+  // Increments the quantity of the product beign scanned
+  void incrementQty(String barcode) {
+    List<Product> prods = order;
+    setState(() {
+      for (var prod in prods) {
+        if (prod.barcode == barcode) {
+          prod.qty++;
+        }
+      }
+    });
+  }
+
+  // Checks if the scanned barcode is in the list
+  bool inList(barcode) {
+    List<Product> prods = order;
+    for (var prod in prods) {
+      if (prod.barcode == barcode) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Checks the name?
+  String checkName(String barcode) {
+    model.fetchProducts();
+    String name = "";
+    List<Product> prods = _products;
+    for (var prod in prods) {
+      if (prod.barcode == barcode) {
+        name = prod.name;
+      }
+    }
+    if (name == "") {
+      return "N?A";
+    }
+    return name;
+  }
+
+  // Checks if a product is in the list
+  Product checkInList(String barcode) {
+    model.fetchProducts();
+    List<Product> prods = _products;
+    for (var prod in prods) {
+      if (prod.barcode == barcode) {
+        return prod;
+      }
+    }
+    return null;
+  }
+
+  // Adds the item to the order
+  void addItem(Product prod) {
+    List<Product> prods = order;
+    if (!prods.contains(prod)) {
+      prods.add(prod);
+      // incrementQty(prod.barcode);
+    }
+    order = prods;
+  }
+
+  // Returns a products by barcode
+  Product getProduct(String barcode) {
+    List<Product> prods = _products;
+    for (int i = 0; i < prods.length; i++) {
+      if (prods[i].barcode == barcode) {
+        return prods[i];
+      }
+    }
+    return null;
   }
 }

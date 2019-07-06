@@ -4,7 +4,13 @@ class Product{
   String barcode;
   String code;
   bool loaded=false;
+  int qty=0;
   //Constructor
 Product(this.name, this.barcode, this.code);
+
+// Return Quantity
+int get prodQty{
+  return qty;
+}
 }
 

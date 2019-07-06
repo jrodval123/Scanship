@@ -30,6 +30,7 @@ dependencies:
   google_sign_in:
   cloud_firestore:
   firebase_database: 
+  queries: ^0.1.12
 
 dev_dependencies:
   flutter_test:
