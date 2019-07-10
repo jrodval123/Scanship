@@ -4,7 +4,7 @@ class Product{
   String barcode;
   String code;
   bool loaded=false;
-  int qty=0;
+  int qty=1;
   //Constructor
 Product(this.name, this.barcode, this.code);
 

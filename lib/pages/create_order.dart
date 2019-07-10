@@ -22,7 +22,7 @@ class _CreateOrderState extends State<CreateOrder> {
   String name = "";
 
   List<Product> order = [];
-  Map<String, int> _order = new Map();
+  Map<String, dynamic> _order = new Map();
   List<Product> _products = [];
   _CreateOrderState(this.model);
 
@@ -55,37 +55,20 @@ class _CreateOrderState extends State<CreateOrder> {
               child: ListView.builder(
                 padding: EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
-                  return Dismissible(
-                    key: Key(order[index].name),
-                    onDismissed: (DismissDirection direction) {
-                      if (direction == DismissDirection.endToStart) {}
-                    },
-                    background: Container(
-                      color: Colors.red,
+                  String key = _order.keys.elementAt(index);
+                  return ListTile(
+                    leading: Container(
+                      child: Text(
+                        _order[key].toString(),
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          leading: Container(
-                            child: Text(
-                              order[index].qty.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                          ),
-                          title: Text(order[index].name,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18)),
-                        ),
-                        Divider(),
-                        ListTile(
-                          title: Text(_order.toString()),
-                        )
-                      ],
-                    ),
+                    title: Text('$key  ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
                   );
                 },
-                itemCount: order.length,
+                itemCount: _order.length,
               ),
             ),
             FlatButton(
@@ -95,6 +78,9 @@ class _CreateOrderState extends State<CreateOrder> {
                 size: 30,
               ),
             ),
+            ListTile(
+              title: Text(_order.toString()),
+            )
           ],
         ));
   }
@@ -108,11 +94,6 @@ class _CreateOrderState extends State<CreateOrder> {
         this.barcode = checkName(barcode);
         final Product prod = getProduct(barcode);
         addToMap(prod);
-        addItem(getProduct(barcode));
-        // order.add(checkInList(barcode));
-        incrementQty(barcode);
-        if (this.barcode == "N?A") {}
-        // name = model.check(barcode);
       });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
@@ -129,17 +110,17 @@ class _CreateOrderState extends State<CreateOrder> {
     }
   }
 
+
   // Adds the product to the Map
-  void addToMap(Product product){
-    int counter=1;
-    if(_order.containsKey(product.name)){
-      counter++;
-      // _order.update(product.name, product.name = counter);
-      _order.update(product.name, (int)=>counter);
+  void addToMap(Product product) {
+    if (_order.containsKey(product.name)) {
+      _order.update('$product.name+p', (int)=>2);
+      return;
     }
-    _order[product.name]= counter;
+    _order[product.name] = 1;
+    return;
   }
-  
+
   // Increments the quantity of the product beign scanned
   void incrementQty(String barcode) {
     List<Product> prods = order;
@@ -150,17 +131,6 @@ class _CreateOrderState extends State<CreateOrder> {
         }
       }
     });
-  }
-
-  // Checks if the scanned barcode is in the list
-  bool inList(barcode) {
-    List<Product> prods = order;
-    for (var prod in prods) {
-      if (prod.barcode == barcode) {
-        return true;
-      }
-    }
-    return false;
   }
 
   // Checks the name?
@@ -177,18 +147,6 @@ class _CreateOrderState extends State<CreateOrder> {
       return "N?A";
     }
     return name;
-  }
-
-  // Checks if a product is in the list
-  Product checkInList(String barcode) {
-    model.fetchProducts();
-    List<Product> prods = _products;
-    for (var prod in prods) {
-      if (prod.barcode == barcode) {
-        return prod;
-      }
-    }
-    return null;
   }
 
   // Adds the item to the order
