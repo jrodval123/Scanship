@@ -31,7 +31,6 @@ class _OrderPageState extends State<OrderPage> {
 
   TextEditingController _orderNameController = new TextEditingController();
   TextEditingController _driverController = new TextEditingController();
-  TextEditingController _destinationController = new TextEditingController();
   TextEditingController _truckController = new TextEditingController();
 
   @override
@@ -60,10 +59,6 @@ class _OrderPageState extends State<OrderPage> {
                   decoration: InputDecoration(hintText: "Conductor"),
                 ),
                 TextField(
-                  controller: _destinationController,
-                  decoration: InputDecoration(hintText: "Ruta"),
-                ),
-                TextField(
                   controller: _truckController,
                   decoration: InputDecoration(hintText: "Camion"),
                 ),
@@ -76,9 +71,8 @@ class _OrderPageState extends State<OrderPage> {
                   setState(() {
                     id = _orderNameController.text.toUpperCase();
                     driver = _driverController.text.toUpperCase();
-                    destination = _destinationController.text.toUpperCase();
                     truck = _truckController.text.toUpperCase();
-                    order = new Order(id, _order, driver, destination, truck);
+                    order = new Order(id, _order, driver, truck);
                     model.pushOrder(order);
                   });
                   Navigator.pop(context);
