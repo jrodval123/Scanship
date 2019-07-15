@@ -1,17 +1,12 @@
 //Order class
-
-import 'package:scanship/models/product.dart';
-
 class Order{
   
   String id;
-  List<Product> products;
+  String driver;
+  String destination;
+  String truck;
 
-  Order(this.id, this.products);
+  Map<String, dynamic> map;
 
-  //Return contents of the products list
-  List<Product> get allProducts{
-    return List.from(products);
-  }
-
+  Order(this.id, this.map, this.driver, this.destination, this.truck);
 }

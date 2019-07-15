@@ -8,6 +8,13 @@ import './order.dart';
 import 'package:scanship/pages/products.dart';
 import 'package:scanship/scoped-models/product.dart';
 
+
+
+/*
+  Credits to:
+  <a target="_blank" href="https://www.vexels.com/vectors/preview/155936/egyptian-hieroglyphics-deer-symbol"> Egyptian hieroglyphics deer symbol </a> |   Designed by Vexels.com
+  For the Deer png used in the logo
+*/
 class Scan extends StatefulWidget {
   final ProductModel model;
   Scan(this.model);
@@ -33,11 +40,12 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Escanear Codigo de Barras"),
+          title: Text("Procesos"),
         ),
         body: Column(
           children: <Widget>[
-            Expanded(
+            Container(
+              child: Expanded(
               flex: 1,
               child: GridView.count(
                 crossAxisCount: 2,
@@ -99,19 +107,46 @@ class _ScanState extends State<Scan> {
                         MaterialPageRoute(
                             builder: (context) => OrderPage(ProductModel()))),
                   ),
+                  GestureDetector(
+                    child: Card(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              child: Image.network(
+                            'https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_history_48px-512.png',
+                            height: 100.0,
+                            width: 400.0,
+                            fit: BoxFit.contain,
+                          )),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          Text(
+                            'Historial de Ordenes',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      barcodeScanning();
+                    },
+                  ),
                 ],
               ),
             ),
-            Expanded(
-                child: Text(
-              "Producto : " + barcode,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ))
+            ),
+            // Container(
+            //     child: Text(
+            //   "Producto : " + barcode,
+            //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            // ))
           ],
         ));
   }
 
-  void _showDialog() {
+  void _showErrDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -139,6 +174,23 @@ class _ScanState extends State<Scan> {
         });
   }
 
+  void _showDialog(String name) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Producto Escaneado"),
+            content: Text(name.toUpperCase(), style: TextStyle(fontSize: 22),),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        });
+  }
+
   Future barcodeScanning() async {
     try {
       String barcode = await BarcodeScanner.scan();
@@ -146,8 +198,10 @@ class _ScanState extends State<Scan> {
         model.fetchProducts();
         this.barcode = model.check(barcode);
         if (this.barcode == "N?A") {
-          _showDialog();
+          _showErrDialog();
+          return;
         }
+        _showDialog(model.check(barcode));
         // name = model.check(barcode);
       });
     } on PlatformException catch (e) {

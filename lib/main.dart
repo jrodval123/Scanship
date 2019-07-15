@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
           title: "Scanship",
         ),
         routes: {
+          './home': (BuildContext context) => MyHomePage(),
           './scan': (BuildContext context) => Scan(ProductModel()),
           './products': (BuildContext context) => Products(ProductModel()),
           './product-list': (BuildContext context) => ProductListPage()

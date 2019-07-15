@@ -4,6 +4,7 @@ import '../models/product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
+import '../models/order.dart';
 
 class OrderPage extends StatefulWidget {
   final ProductModel model;
@@ -20,19 +21,73 @@ class _OrderPageState extends State<OrderPage> {
 
   String barcode = "";
   String name = "";
-
-  List<Product> order = [];
+  String id = "";
+  String driver = "";
+  String truck = "";
+  String destination = "";
   List<Product> _products = [];
-  // Map<String, dynamic> _order = {'key1':1, 'key2':1,'key3':1,'key4':1,'key5':1,'key6':1,'key7':1,};
   Map<String, dynamic> _order = new Map();
+  Order order;
+
+  TextEditingController _orderNameController = new TextEditingController();
+  TextEditingController _driverController = new TextEditingController();
+  TextEditingController _destinationController = new TextEditingController();
+  TextEditingController _truckController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     setState(() {
       model.fetchProducts();
-    _products = model.allProducts;
+      _products = model.allProducts;
     });
+  }
+
+  void _showDialog(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Nombre de la orden'),
+            content: Column(
+              children: <Widget>[
+                TextField(
+                  controller: _orderNameController,
+                  decoration: InputDecoration(hintText: "Orden")
+                ),
+                TextField(
+                  controller: _driverController,
+                  decoration: InputDecoration(hintText: "Conductor"),
+                ),
+                TextField(
+                  controller: _destinationController,
+                  decoration: InputDecoration(hintText: "Ruta"),
+                ),
+                TextField(
+                  controller: _truckController,
+                  decoration: InputDecoration(hintText: "Camion"),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Guardar'),
+                onPressed: () {
+                  setState(() {
+                    id = _orderNameController.text.toUpperCase();
+                    driver = _driverController.text.toUpperCase();
+                    destination = _destinationController.text.toUpperCase();
+                    truck = _truckController.text.toUpperCase();
+                    order = new Order(id, _order, driver, destination, truck);
+                    model.pushOrder(order);
+                  });
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -43,7 +98,9 @@ class _OrderPageState extends State<OrderPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),
-            onPressed: () {},
+            onPressed: () {
+              _showDialog(context);
+            },
           )
         ],
       ),
@@ -70,7 +127,7 @@ class _OrderPageState extends State<OrderPage> {
           ),
           FlatButton(
             child: Icon(Icons.add, size: 30),
-            onPressed: ()=> barcodeScanning(),
+            onPressed: () => barcodeScanning(),
           ),
         ],
       ),
@@ -84,18 +141,18 @@ class _OrderPageState extends State<OrderPage> {
         model.fetchProducts();
         _products = model.allProducts;
         this.barcode = barcode;
-        for(var prod in _products){
-          if(prod.barcode == barcode){
+        for (var prod in _products) {
+          if (prod.barcode == barcode) {
             name = prod.name;
           }
         }
-        if(_order.containsKey('$name')){
+        if (_order.containsKey('$name')) {
           setState(() {
-            _order['$name']+=1;
+            _order['$name'] += 1;
           });
           return;
         }
-        _order['$name'] =1;       
+        _order['$name'] = 1;
       });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {

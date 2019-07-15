@@ -161,6 +161,14 @@ class ProductModel extends Model{
     }
     return null;
   }
+  void pushOrder(Order order){
+    dbref.child("orders").push().set({
+        'id' : order.id,
+        'conductor': order.driver,
+        'camion':order.truck,
+        'productos': order.map
+    });
+  }
   //Fetches the products stored in the DB and adds them to the orders list
   // void fetchOrders() {
   //   List<Order> fetchedOrders = [];
