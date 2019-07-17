@@ -88,7 +88,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("OrdenBeta"),
+        title: Text("Orden"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.save),

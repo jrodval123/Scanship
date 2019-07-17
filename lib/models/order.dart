@@ -8,4 +8,8 @@ class Order{
   Map<String, dynamic> map;
 
   Order(this.id, this.map, this.driver, this.truck);
+
+  String get getDriver{
+    return driver;
+  }
 }

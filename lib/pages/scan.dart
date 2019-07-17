@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import '../pages/order_list.dart';
 // import 'package:scanship/pages/create_order.dart';
 import './order.dart';
 import 'package:scanship/pages/products.dart';
 import 'package:scanship/scoped-models/product.dart';
+
+import 'orders.dart';
 
 
 
@@ -129,9 +132,10 @@ class _ScanState extends State<Scan> {
                         ],
                       ),
                     ),
-                    onTap: () {
-                      barcodeScanning();
-                    },
+                    onTap: ()=>Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OrderListPage())),
                   ),
                 ],
               ),

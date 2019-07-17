@@ -14,7 +14,7 @@ class ProductModel extends Model{
 
   bool onTruck;
   int _selectedProductIndex;
-  
+  int _selectedOrderIndex;
   //Firebase DB reference
   final dbref = FirebaseDatabase.instance.reference();
 
@@ -70,6 +70,10 @@ class ProductModel extends Model{
     return _selectedProductIndex;
   }
 
+  int get selectedOrderIndex{
+    return _selectedOrderIndex;
+  }
+
   //Returns a Product of the selected Index
   Product get selectedProduct {
     if (_selectedProductIndex == null) {
@@ -100,6 +104,10 @@ class ProductModel extends Model{
   //Marks the product as the selected product
   void selectProduct(int index) {
     _selectedProductIndex = index;
+  }
+
+  void selectOrder(int index){
+    _selectedOrderIndex = index;
   }
 
   //Display only the items on the cart
@@ -134,6 +142,7 @@ class ProductModel extends Model{
       _products = fetchedProducts;
     });
   }
+
   void printsize(){
     print(_products.length);
   }
@@ -161,29 +170,37 @@ class ProductModel extends Model{
     }
     return null;
   }
+
   void pushOrder(Order order){
-    dbref.child("orders").push().set({
+    var list = order.map.keys.toList();
+    var orderRoot = dbref.child('orders');
+    var ordersRef = orderRoot.push();
+    ordersRef.set({
         'id' : order.id,
         'conductor': order.driver,
         'camion':order.truck,
-        'productos': order.map
+    });
+    var opRef = ordersRef.child('products').push();
+    for(int i =0 ; i < list.length; i++){
+      opRef.set({
+        'name': list[i],
+        'qty': order.map[list[i]]
+      });
+    }
+  }
+
+  // Fetches the Orders in the Firebase Realtime Database
+  void fetchOrders(){
+    final List<Order> fetchedOrders = [];
+    dbref.child('orders').once().then((DataSnapshot snap){
+      var keys = snap.value.keys;
+      var data = snap.value;
+      for(var key in keys){
+        Order newOrder = Order(data[key]['id'], data[key]['productos'], data[key]['conductor'], data[key]['camion']);
+        fetchedOrders.add(newOrder);
+      }
+      notifyListeners();
+      _orders = fetchedOrders;
     });
   }
-  //Fetches the products stored in the DB and adds them to the orders list
-  // void fetchOrders() {
-  //   List<Order> fetchedOrders = [];
-  //   orderCollectionReference.getDocuments().then((QuerySnapshot snapshot) {
-  //     snapshot.documents.forEach((document) {
-  //       final Order newOrder = Order(
-  //         document.data['id'],
-  //         document.data['number'].toString(),
-  //         document.data['ordertotal'],
-  //         document.data['qty']
-  //       );
-  //       fetchedOrders.add(newOrder);
-  //     });
-  //     _orders = fetchedOrders;
-  //     notifyListeners();
-  //   });
-  // }
 }
