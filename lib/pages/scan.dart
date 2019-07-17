@@ -9,7 +9,6 @@ import './order.dart';
 import 'package:scanship/pages/products.dart';
 import 'package:scanship/scoped-models/product.dart';
 
-import 'orders.dart';
 
 
 
