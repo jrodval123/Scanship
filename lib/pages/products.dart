@@ -25,6 +25,7 @@ class _ProductsState extends State<Products>{
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           backgroundColor: Color.fromRGBO(255, 222, 3, 1.0),
           title: Text('Administrador de Productos'),
           bottom: TabBar(

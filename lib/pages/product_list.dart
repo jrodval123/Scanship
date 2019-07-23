@@ -24,6 +24,7 @@ class ProductListPage extends StatelessWidget {
       builder: (BuildContext context, Widget child, ProductModel model) {
         model.fetchProducts();
         return ListView.builder(
+          padding: EdgeInsets.only(top: 5.0),
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
               key: Key(model.allProducts[index].name),

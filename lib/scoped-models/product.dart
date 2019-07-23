@@ -1,4 +1,3 @@
-
 import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
@@ -6,8 +5,7 @@ import '../models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class ProductModel extends Model{
-
+class ProductModel extends Model {
   List<Product> _products = [];
   List<Product> _truckProducts = [];
   List<Order> _orders = [];
@@ -21,40 +19,40 @@ class ProductModel extends Model{
   //FireStore reference
   final CollectionReference collectionReference =
       Firestore.instance.collection('products');
-  
+
   // Return elements from the product list
-  List<Product> get allProducts{
+  List<Product> get allProducts {
     return List.from(_products);
   }
-  
+
   // Return elements from the orders list
-  List<Order> get allOrders{
+  List<Order> get allOrders {
     return List.from(_orders);
   }
 
   // Return elements from the truck list
-  List<Product> get allTruckProducts{
+  List<Product> get allTruckProducts {
     return List.from(_truckProducts);
   }
 
   //Add products to the truck
-  void addToTruck(Product product){
+  void addToTruck(Product product) {
     _truckProducts.add(product);
     notifyListeners();
   }
 
   //Add Product to Order list
-  void addToOrder(Product product, List<Product> list){
+  void addToOrder(Product product, List<Product> list) {
     list.add(product);
     notifyListeners();
   }
 
   // Add products to the firestore once it its created
-  void addProduct(Product product){
+  void addProduct(Product product) {
     dbref.child("products").push().set({
       'name': product.name,
-      'code':product.code,
-      'barcode':product.barcode
+      'code': product.code,
+      'barcode': product.barcode
     });
     Firestore.instance.collection('products').document().setData({
       'name': product.name,
@@ -64,13 +62,13 @@ class ProductModel extends Model{
     _products.add(product);
     print(_products.length);
     notifyListeners();
-  }  
+  }
 
   int get selectedProductIndex {
     return _selectedProductIndex;
   }
 
-  int get selectedOrderIndex{
+  int get selectedOrderIndex {
     return _selectedOrderIndex;
   }
 
@@ -88,8 +86,7 @@ class ProductModel extends Model{
   }
 
   //Updates the product whenever it its editted.
-  void updateProduct(
-      String name, String code, String barcode) {
+  void updateProduct(String name, String code, String barcode) {
     final Product updatedProduct = Product(name, code, barcode);
     _products[_selectedProductIndex] = updatedProduct;
     notifyListeners();
@@ -106,7 +103,7 @@ class ProductModel extends Model{
     _selectedProductIndex = index;
   }
 
-  void selectOrder(int index){
+  void selectOrder(int index) {
     _selectedOrderIndex = index;
   }
 
@@ -120,8 +117,8 @@ class ProductModel extends Model{
   void toggleProductOnCartStatus() {
     final bool isCurrentlyOnCart = selectedProduct.loaded;
     final bool newOncartStatus = !isCurrentlyOnCart;
-    final Product updatedProduct = new Product(selectedProduct.name,
-        selectedProduct.code, selectedProduct.barcode);
+    final Product updatedProduct = new Product(
+        selectedProduct.name, selectedProduct.code, selectedProduct.barcode);
     updatedProduct.loaded = newOncartStatus;
     _products[selectedProductIndex] = updatedProduct;
     notifyListeners();
@@ -130,12 +127,12 @@ class ProductModel extends Model{
   //Fetches the products stored in the DB and add it to the Products List
   void fetchProducts() {
     final List<Product> fetchedProducts = [];
-    dbref.child("products").once().then((DataSnapshot snap){
-
+    dbref.child("products").once().then((DataSnapshot snap) {
       var keys = snap.value.keys;
       var data = snap.value;
-      for(var key in keys){
-        Product newProduct = Product(data[key]['name'],data[key]['barcode'], data[key]['code']);
+      for (var key in keys) {
+        Product newProduct =
+            Product(data[key]['name'], data[key]['barcode'], data[key]['code']);
         fetchedProducts.add(newProduct);
       }
       notifyListeners();
@@ -143,60 +140,69 @@ class ProductModel extends Model{
     });
   }
 
-  void printsize(){
+  void printsize() {
     print(_products.length);
   }
 
-  String check(String barcode){
+  String check(String barcode) {
     fetchProducts();
-    String name ="";
+    String name = "";
     List<Product> prods = _products;
-    for (var prod in prods){
-      if(prod.barcode == barcode){
+    for (var prod in prods) {
+      if (prod.barcode == barcode) {
         name = prod.name;
       }
     }
-    if(name==""){return "N?A";}
+    if (name == "") {
+      return "N?A";
+    }
     return name;
   }
 
-  Product checkInList(String barcode){
+  Product checkInList(String barcode) {
     fetchProducts();
     List<Product> prods = _products;
-    for (var prod in prods){
-      if(prod.barcode == barcode){
+    for (var prod in prods) {
+      if (prod.barcode == barcode) {
         return prod;
       }
     }
     return null;
   }
 
-  void pushOrder(Order order){
+  void pushOrder(Order order) {
     var list = order.map.keys.toList();
     var orderRoot = dbref.child('orders');
     var ordersRef = orderRoot.push();
     ordersRef.set({
-        'id' : order.id,
-        'conductor': order.driver,
-        'camion':order.truck,
+      'id': order.id,
+      'conductor': order.driver,
+      'camion': order.truck,
     });
     var opRef = ordersRef.child('products').push();
-    for(int i =0 ; i < list.length; i++){
-      opRef.set({
-        'name': list[i],
-        'qty': order.map[list[i]]
-      });
+    for (int i = 0; i < list.length; i++) {
+      opRef.set({'name': list[i], 'qty': order.map[list[i]]});
     }
   }
 
   // Fetches the Orders in the Firebase Realtime Database
-  void fetchOrders(){
+  void fetchOrders() {
     final List<Order> fetchedOrders = [];
-    dbref.child('orders').once().then((DataSnapshot snap){
+    final Map<String, dynamic> map = new Map();
+    dbref.child('orders').once().then((DataSnapshot snap) {
       var keys = snap.value.keys;
       var data = snap.value;
-      for(var key in keys){
-        Order newOrder = Order(data[key]['id'], data[key]['productos'], data[key]['conductor'], data[key]['camion']);
+      for (var key in keys) {
+        dbref.child('orders').child(key).child('products').once().then((DataSnapshot dataSnapshot){
+          var _keys = dataSnapshot.value.keys;
+          var _data = dataSnapshot.value;
+          for(var _key in _keys){
+            map[_data[_key]['name']] = _data[_key]['qty'];
+
+          }
+        });
+        Order newOrder = Order(data[key]['id'], map,
+            data[key]['conductor'], data[key]['camion']);
         fetchedOrders.add(newOrder);
       }
       notifyListeners();

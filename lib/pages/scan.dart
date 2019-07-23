@@ -50,6 +50,7 @@ class _ScanState extends State<Scan> {
               child: Expanded(
               flex: 1,
               child: GridView.count(
+                padding: EdgeInsets.only(top: 8.0),
                 crossAxisCount: 2,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -57,6 +58,7 @@ class _ScanState extends State<Scan> {
                 children: <Widget>[
                   GestureDetector(
                     child: Card(
+                      elevation: 3.0,
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -83,6 +85,7 @@ class _ScanState extends State<Scan> {
                   ),
                   GestureDetector(
                     child: Card(
+                      elevation: 3.0,
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -111,6 +114,7 @@ class _ScanState extends State<Scan> {
                   ),
                   GestureDetector(
                     child: Card(
+                      elevation: 3.0,
                       child: Column(
                         children: <Widget>[
                           Container(
