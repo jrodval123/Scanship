@@ -170,6 +170,7 @@ class ProductModel extends Model {
     return null;
   }
 
+  //Pushes the order to the realtime database
   void pushOrder(Order order) {
     var list = order.map.keys.toList();
     var orderRoot = dbref.child('orders');
@@ -179,9 +180,16 @@ class ProductModel extends Model {
       'conductor': order.driver,
       'camion': order.truck,
     });
-    var opRef = ordersRef.child('products').push();
+    // var opRef = ordersRef.child('products').push();
+    // order.map.forEach((k,v)=>opRef.set({
+    //   'name':'$k',
+    //   'qty': 'v'
+    // }));
     for (int i = 0; i < list.length; i++) {
-      opRef.set({'name': list[i], 'qty': order.map[list[i]]});
+      var opRef = ordersRef.child('products').push();
+      opRef.set({
+      'name': list[i], 
+      'qty': order.map[list[i]]});
     }
   }
 
@@ -190,7 +198,6 @@ class ProductModel extends Model {
     final List<Order> fetchedOrders = [];
     // final Map<String, dynamic> map = new Map();
     dbref.child('orders').once().then((DataSnapshot snap) {
-    
       var keys = snap.value.keys;
       var data = snap.value;
       for (var key in keys) {
