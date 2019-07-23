@@ -31,7 +31,7 @@ class OrderDetails extends StatelessWidget{
                         style: TextStyle(fontSize: 18)),
                   ),
                   title: Text(
-                    order.map.toString(),
+                    '$key',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),

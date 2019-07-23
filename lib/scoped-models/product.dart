@@ -188,17 +188,18 @@ class ProductModel extends Model {
   // Fetches the Orders in the Firebase Realtime Database
   void fetchOrders() {
     final List<Order> fetchedOrders = [];
-    final Map<String, dynamic> map = new Map();
+    // final Map<String, dynamic> map = new Map();
     dbref.child('orders').once().then((DataSnapshot snap) {
+    
       var keys = snap.value.keys;
       var data = snap.value;
       for (var key in keys) {
+        Map<String, dynamic> map = new Map();
         dbref.child('orders').child(key).child('products').once().then((DataSnapshot dataSnapshot){
           var _keys = dataSnapshot.value.keys;
           var _data = dataSnapshot.value;
           for(var _key in _keys){
             map[_data[_key]['name']] = _data[_key]['qty'];
-
           }
         });
         Order newOrder = Order(data[key]['id'], map,
