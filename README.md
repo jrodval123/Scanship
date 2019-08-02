@@ -4,13 +4,16 @@ Scanship is a mobile app developed by Jesus Rodriguez for DIMORO. More specifica
 
 # Features:
 ### QR and Barcode Scanning:
-Scanship uses the barcode_scan dart package to scan the barcodes.
+Scanship uses the barcode_scan dart package to scan the barcode.
 
 ### Product Checking using QR and barcodes
 The app also allows the user to check for a certain product name.
 
 ### Shipping lists for each order
-Scanship´s main purpose is to help the warehouse manager to keep track of what gets out of the warehouse by creating shipping list using the barcode scanner function of the app.
+Scanship´s main purpose is to help the warehouse manager to keep track of what gets out of the warehouse by creating a shipping list using the barcode scanner function of the app.
 
 # Extras:
-Given that the app was developed for a bussiness, a python script was created to fetch the data from the Firebase Realtime Database to write that data to an excel sheet. Link to the Script Repo
+Given that the app was developed for a business, a python script was created to fetch the data from the Firebase Realtime Database to write that data to an excel sheet. Link to the Script Repo
+
+# Issues:
+At the moment, Scanship is only working for iOS devices but Android version will be completed soon
